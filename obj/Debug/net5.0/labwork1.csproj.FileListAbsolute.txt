@@ -1,0 +1,15 @@
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net5.0\labwork1.exe
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net5.0\labwork1.deps.json
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net5.0\labwork1.runtimeconfig.json
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net5.0\labwork1.runtimeconfig.dev.json
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net5.0\labwork1.dll
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net5.0\ref\labwork1.dll
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net5.0\labwork1.pdb
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\labwork1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\labwork1.AssemblyInfoInputs.cache
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\labwork1.AssemblyInfo.cs
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\labwork1.csproj.CoreCompileInputs.cache
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\labwork1.dll
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\ref\labwork1.dll
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\labwork1.pdb
+C:\Users\Meijin\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\net5.0\labwork1.genruntimeconfig.cache
