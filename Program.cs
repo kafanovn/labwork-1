@@ -90,6 +90,10 @@ namespace ConsoleApp1
         {
             get
             {
+                if (DataList.Count == 0)
+                {
+                    return 0;
+                }
                 double max = Math.Sqrt(Math.Pow(DataList[0].value.X, 2) + Math.Pow(DataList[0].value.Y, 2));
                 foreach (DataItem Item in DataList)
                 {
@@ -142,7 +146,7 @@ namespace ConsoleApp1
             {
                 for (int j = 0; j < ySteps; j++)
                 {
-                    array[i, j] = F(new Vector2((float)i * Step.X, (float)j * Step.Y));
+                    array[i, j] = F(new Vector2((float)j * Step.X, (float)i * Step.Y));
                 }
             }
         }
@@ -156,13 +160,13 @@ namespace ConsoleApp1
 
         public override string ToLongString(string format)
         {
-            string str1 = String.Format("ClassName:{0}\n obj:{1}\n data:{2}\n xSteps:{3}\n ySteps:{4}\n Step:{5}\n coords:\n", "V4DataArray", obj, data, xSteps, ySteps, Step) + '\n';
+            string str1 = String.Format("ClassName:{0}\n obj:{1}\n data:{2}\n xSteps:{3}\n ySteps:{4}\n Step:{5:f2}\n coords:\n", "V4DataArray", obj, data, xSteps, ySteps, Step) + '\n';
             string str2 = "";
-            for (int i = 0; i < xSteps; i++)
+            for (int i = 0; i < ySteps; i++)
             {
-                for (int j = 0; j < ySteps; j++)
+                for (int j = 0; j < xSteps; j++)
                 {
-                    str2 += String.Format(format, i * xSteps, j * ySteps);
+                    str2 += String.Format(format, i*Step.X, j*Step.Y);
                 }
             }
             return str1 + str2;
@@ -199,7 +203,7 @@ namespace ConsoleApp1
             {
                 for (int j = 0; j < ySteps; j++)
                 {
-                    Vector2 place = new Vector2(i * xSteps, j * ySteps);
+                    Vector2 place = new Vector2(i * Step.X, j * Step.Y);
                     Vector2 value = array[i, j];
                     DataItem Item = new DataItem(place, value);
                     DataList.Add(Item);
@@ -266,16 +270,23 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             FvVector2 F = Fields.E;
-            V4DataArray arr = new V4DataArray("V4DateArray", new DateTime(1, 1, 1), 5, 5, new Vector2(1, 1), F);
+            V4DataArray arr = new V4DataArray("V4DateArray", new DateTime(1, 1, 1), 1, 2, new Vector2(1, 0.11f), F);
             Console.WriteLine(arr.ToLongString("{0:f2} {1:f2} \n"));
             V4DataList list = arr.ArrayToList();
             Console.WriteLine(list.ToLongString("{0:f2} {1:f2} \n"));
-            Console.WriteLine("{0:f2} {1:f2} {2:f3} {3:f4}\n", arr.Count, arr.MaxFromOrigin, list.Count, list.MaxFromOrigin);
+            Console.WriteLine(" ArrCount: {0}\n ArrMaxFromOrigin: {1:f2}\n ListCount: {2}\n ListMaxFromOrigin: {3:f2}\n", arr.Count, arr.MaxFromOrigin, list.Count, list.MaxFromOrigin);
 
             V4MainCollection collection = new V4MainCollection();
             collection.Add(list);
             collection.Add(arr);
-            Console.WriteLine(collection.ToLongString("{0:f2} {1:f2} \n"));
+            
+
+            V4DataArray arr1 = new V4DataArray("V4DateArray", new DateTime(1, 1, 1), 0, 2, new Vector2(1, 0.11f), F);
+            collection.Add(arr1);
+            V4DataList list1 = new V4DataList("List1", DateTime.Now);
+            list1.AddDefaults(2, F);
+            collection.Add(list1);
+            collection.Add(new V4DataList("emptyList", DateTime.Now));
 
             for (int i = 0; i < collection.Count(); i++)
             {
