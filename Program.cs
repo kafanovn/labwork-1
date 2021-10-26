@@ -16,12 +16,11 @@ namespace ConsoleApp1
         }
         public string ToLongString(string format)
         {
-            return String.Format(format, this.place.X, this.place.Y, this.value.X, this.value.Y, Math.Sqrt(Math.Pow(this.value.X, 2) + Math.Pow(this.value.Y, 2)));
+            return $"X = {this.place.X.ToString(format)} Y = {this.place.Y.ToString(format)} E_X = {this.value.X.ToString(format)} E_Y = {this.value.Y.ToString(format)} |E| = {this.value.Length().ToString(format)}";
         }
         public override string ToString()
         {
-            return String.Format("X {0:f2} Y {1:f2} E_X {2:f2} E_Y {3:f2} |E| {4:f2}", 
-                this.place.X, this.place.Y, this.value.X, this.value.Y, Math.Sqrt(Math.Pow(this.value.X, 2) + Math.Pow(this.value.Y, 2)));
+            return String.Format("X {0:f2} Y {1:f2} E_X {2:f2} E_Y {3:f2} |E| {4:f2}", this.place.X, this.place.Y, this.value.X, this.value.Y, this.value.Length());
         }
     }
 
@@ -109,13 +108,10 @@ namespace ConsoleApp1
 
         public override string ToLongString(string format)
         {
-            string str1 = String.Format("ClassName:{0}\n obj:{1}\n data:{2}\n Count:{3} coords:\n", "V4DataList", obj, data, this.Count) + '\n';
-            string str2 = "";
-            foreach (DataItem Item in DataList)
-            {
-                str2 += string.Format(format, Item.place.X, Item.place.Y);
-            }
-            return str1 + str2;
+            string str = String.Format("ClassName:{0}\n obj:{1}\n data:{2}\n Count:{3} coords:\n", "V4DataList", obj, data, this.Count) + '\n';
+            foreach (DataItem item in DataList) str += item.ToLongString(format) + '\n';
+            return str;
+            
         }
         public override string ToString()
         {
@@ -161,15 +157,14 @@ namespace ConsoleApp1
         public override string ToLongString(string format)
         {
             string str1 = String.Format("ClassName:{0}\n obj:{1}\n data:{2}\n xSteps:{3}\n ySteps:{4}\n Step:{5:f2}\n coords:\n", "V4DataArray", obj, data, xSteps, ySteps, Step) + '\n';
-            string str2 = "";
-            for (int i = 0; i < ySteps; i++)
+            for (int i = 0; i < xSteps; i++)
             {
-                for (int j = 0; j < xSteps; j++)
+                for (int j = 0; j < ySteps; j++)
                 {
-                    str2 += String.Format(format, i*Step.X, j*Step.Y);
+                    str1 += $"X = {(Step.X * i).ToString(format)} Y = {(Step.Y * j).ToString(format)} E_X = {array[i,j].X.ToString(format)} E_Y = {array[i, j].Y.ToString(format)} |E| = {array[i, j].Length().ToString(format)}" + "\n";
                 }
             }
-            return str1 + str2;
+            return str1;
         }
 
         public override string ToString()
@@ -180,14 +175,15 @@ namespace ConsoleApp1
         {
             get
             {
-                double max = Math.Sqrt(Math.Pow(array[0,0].X, 2) + Math.Pow(array[0, 0].Y, 2));
+                if (xSteps == 0 || ySteps == 0) { return 0; }
+                double max = array[0,0].Length();
                 for (int i = 0; i < xSteps; i++)
                 {
                     for (int j = 0; j < ySteps; j++)
                     {
-                        if (Math.Sqrt(Math.Pow(array[i, j].X, 2) + Math.Pow(array[i,j].Y, 2)) > max)
+                        if (array[i,j].Length() > max)
                         {
-                            max = Math.Sqrt(Math.Pow(array[i, j].X, 2) + Math.Pow(array[i, j].Y, 2));
+                            max = array[i, j].Length();
                         }
                     }
                 }
@@ -268,14 +264,14 @@ namespace ConsoleApp1
     class Program
     {
         static void Main(string[] args)
-        {
+        {/*
             FvVector2 F = Fields.E;
             V4DataArray arr = new V4DataArray("V4DateArray", new DateTime(1, 1, 1), 1, 2, new Vector2(1, 0.11f), F);
             Console.WriteLine(arr.ToLongString("{0:f2} {1:f2} \n"));
             V4DataList list = arr.ArrayToList();
             Console.WriteLine(list.ToLongString("{0:f2} {1:f2} \n"));
             Console.WriteLine(" ArrCount: {0}\n ArrMaxFromOrigin: {1:f2}\n ListCount: {2}\n ListMaxFromOrigin: {3:f2}\n", arr.Count, arr.MaxFromOrigin, list.Count, list.MaxFromOrigin);
-
+         
             V4MainCollection collection = new V4MainCollection();
             collection.Add(list);
             collection.Add(arr);
@@ -291,8 +287,33 @@ namespace ConsoleApp1
             for (int i = 0; i < collection.Count(); i++)
             {
                 Console.WriteLine("Count {0:f2} MaxFromOrigin {1:f2}", collection[i].Count, collection[i].MaxFromOrigin);
-            }
+            }*/
+           
 
+            FvVector2 F = Fields.E;
+            V4DataArray arr = new V4DataArray("V4DateArray", new DateTime(1, 1, 1), 1, 2, new Vector2(1, 0.11f), F);
+            Console.WriteLine(arr.ToLongString("f2"));
+            V4DataList list = arr.ArrayToList();
+            Console.WriteLine(list.ToLongString("f2"));
+            Console.WriteLine(" ArrCount: {0}\n ArrMaxFromOrigin: {1:f2}\n ListCount: {2}\n ListMaxFromOrigin: {3:f2}\n", arr.Count, arr.MaxFromOrigin, list.Count, list.MaxFromOrigin);
+
+            DataItem dataitem = new DataItem(new Vector2(1.1f, 2.2f), new Vector2(7.7f, 9.9f));
+            Console.WriteLine($"DataItem\n {dataitem.ToLongString("F2")}\n");
+
+            V4MainCollection collection = new V4MainCollection();
+
+            V4DataArray arr1 = new V4DataArray("V4DateArray", new DateTime(1, 1, 1), 0, 2, new Vector2(1, 0.11f), F);
+            collection.Add(arr1);
+            V4DataList list1 = new V4DataList("List1", DateTime.Now);
+            list1.AddDefaults(2, F);
+            collection.Add(list1);
+            collection.Add(new V4DataList("emptyList", DateTime.Now));
+
+            Console.WriteLine(collection.ToLongString("f2"));
+            for (int i = 0; i < collection.Count(); i++)
+            {
+                Console.WriteLine("Count {0:f2} MaxFromOrigin {1:f2}", collection[i].Count, collection[i].MaxFromOrigin);
+            }
         }
     }
 }
